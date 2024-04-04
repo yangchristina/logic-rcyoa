@@ -2,3 +2,4 @@
 :- include('random.pl').
 :- include('story.pl').
 :- include('types.pl').
+% :- [utils].
