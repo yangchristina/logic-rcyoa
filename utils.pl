@@ -25,20 +25,24 @@ normalize([H|T],[H1|T1]) :- total([H|T], C),
 % prolog does not need fixdel unlike haskell
  %Ask for an integer input, and repeat until a valid integer is given
  % This works but its really slow prolly needs fixing but i too tired rn
- ask_int_in_range(Min, Max) :- read(X),
+ ask_int_in_range(Min, Max, X) :- read(X),
                                is_of_type(integer, X),
                                X > Min,
                                X < Max.
-ask_int_in_range(Min, _) :- read(X),
+ask_int_in_range(Min, Max, Y) :- read(X),
                             is_of_type(integer, X),
                             X < Min,
-                            write("Invalid input, try again").
-ask_int_in_range(_, Max) :- read(X),
+                            write("Invalid input, try again"),
+                            ask_int_in_range(Min, Max, Y).
+ask_int_in_range(Min, Max, Y) :- read(X),
                         is_of_type(integer, X),
                         X > Max,
-                        write("Invalid input, try again").
-ask_int_in_range(_, _) :- read(_),
-write("That is not an integer. Please try again.").
+                        write("Invalid input, try again"),
+                        ask_int_in_range(Min, Max, Y).
+ask_int_in_range(Min, Max, Y) :- read(X),
+                     \+ is_of_type(integer, X),
+                     write("Invalid input, try again"),
+                     ask_int_in_range(Min, Max, Y).
 
 ask :- write("Please input an int"),
        nl,
