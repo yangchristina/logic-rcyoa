@@ -60,8 +60,8 @@ ask :- write("Please input an int"),
        write(T).
 
 
-ask_with_wait_next :: String -> IO ()
-ask_with_wait_next Desc :-
+% ask_with_wait_next :: String -> IO ()
+ask_with_wait_next(Desc) :-
     write(Desc),
     nl,
     read(_).
@@ -79,5 +79,5 @@ ask_with_wait_next Desc :-
 % increaseProbOfIndex probs idx = normalize (modifyListAtIndex probs idx (* 2))
 
 % given a list of probabilities and an index, increase the probability at the given index, then normalize so it still sums to 1
-increase_prob_of_index P1 I R :- multiply_at_index(P1, I, 2, PM),
+increase_prob_of_index(P1, I, R) :- multiply_at_index(P1, I, 2, PM),
                                   normalize(PM, R).
