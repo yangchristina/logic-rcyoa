@@ -16,11 +16,10 @@ total([H|T], S) :- total(T, S1),
                    S is H+S1.
 
 % normalize list of numbers, call initially with total
-normalize([],[]).
-normalize([H|T],[H1|T1]) :- total([H|T], C),
-                            H1 = H/C,
-                            normalize(T, C, T2),
-                            T1 = T2.
+normalize([],_,[]).
+normalize([H|T],C,[H1|T1]) :- H1 = H/C,
+                              normalize(T, C, T2),
+                              T1 = T2.
 
 % prolog does not need fixdel unlike haskell
  %Ask for an integer input, and repeat until a valid integer is given
@@ -46,4 +45,5 @@ ask_int_in_range(Min, Max, Y) :- read(X),
 
 ask :- write("Please input an int"),
        nl,
-       ask_int_in_range(1, 5).
+       ask_int_in_range(1, 5, T),
+       write(T).

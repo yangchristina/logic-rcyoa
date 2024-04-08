@@ -19,11 +19,12 @@ choose_cdf_list_index([H|T],CI,N,RI) :-
     RI is CI.
 choose_cdf_list_index([H|T],CI,N,RI) :-
     H < N,
-    choose_cdf_list_index(T,CI+1,N,RI)
+    choose_cdf_list_index(T,CI+1,N,RI).
 
 choose_from_weighted_list(L,W,E) :-
     random(R),
-    normalize(W,N)
+    total(W,T),
+    normalize(W,T,N),
     convert_to_cdf(N,C),
     choose_cdf_list_index(C,0,R,I),
     nth0(I,L,E).
