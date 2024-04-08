@@ -1,3 +1,3 @@
 :- include('game.pl').
 
-startGame.
+start_game.

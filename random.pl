@@ -23,8 +23,7 @@ choose_cdf_list_index([H|T],CI,N,RI) :-
 
 choose_from_weighted_list(L,W,E) :-
     random(R),
-    total(W,T),
-    normalize(W,T,N),
+    normalize(W,N),
     convert_to_cdf(N,C),
     choose_cdf_list_index(C,0,R,I),
     nth0(I,L,E).
