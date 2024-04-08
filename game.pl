@@ -4,6 +4,9 @@
 :- include('types.pl').
 :- [state].
 
+% suprress discontigous warnings.
+
+
 % scenario_outcome(KEY, DESC, CHOICES)
 
 % -- given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
@@ -28,7 +31,7 @@ create_scenario_weights(Lst,NR) :-
 
 % -- given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
 % createScenarioWeights :: [[Char]] -> [Rational]
-store_world(Key)
+% store_world(Key)
 % createScenarioWeights lst = normalize [if h `elem` lst then (2 * fromIntegral (length allScenarioKeys) / fromIntegral (length lst)) else 1 | h <- allScenarioKeys]
 
 % -- given a PlayerChoice, choose the next scenario
@@ -79,7 +82,7 @@ ask_scenario(Scenario,I) :-
     ask_int_in_range(1, L, A),
     I is A-1,
     nth0(I,C,E),
-    choice(Scenario,num(E),Desc2,_,_),
+    choice(Scenario,E,Desc2,_,_),
     format(atom(S), 'You chose: ~w', [Desc2]),
     write(S),
     nl.
@@ -98,9 +101,6 @@ ask_scenario(Scenario,I) :-
 % putStrLn $ "Points: " ++ show points
 % putStrLn ("Thanks for playing!")
 
-should_end(Scenario,Points,EndKey) :-
-    scenario_outcome(Scenario,_,_),
-    EndKey = "end",
 
 go(scene(end), end).
 go(scene(end(*)), end(*)).

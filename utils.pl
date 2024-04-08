@@ -1,15 +1,15 @@
 % Author: Michelle
 % Modify list at given index (zero based), N = New item, [H|T] = list to be modified, I = index of entry to be modified
-modify_list_at_index([], _, _, []).
-modify_list_at_index([_|T], 0, N, R) :- R = [N|T].
-modify_list_at_index([H|T], I, N, R) :- I1 is I - 1,
-                                        modify_list_at_index(T, I1, N, R1),
-                                        R = [H|R1].
+% modify_list_at_index([], _, _, []).
+% modify_list_at_index([_|T], 0, N, R) :- R = [N|T].
+% modify_list_at_index([H|T], I, N, R) :- I1 is I - 1,
+%                                         modify_list_at_index(T, I1, N, R1),
+%                                         R = [H|R1].
 
 multiply_at_index([], _, _, []).
 multiply_at_index([H|T], 0, M, R) :- R = [(M*H)|T].
 multiply_at_index([H|T], I, M, R) :- I1 is I - 1,
-                                        modify_list_at_index(T, I1, M, R1),
+                                        multiply_at_index(T, I1, M, R1),
                                         R = [H|R1].
 
 % Remove first element of list
