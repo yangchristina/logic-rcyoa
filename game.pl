@@ -3,15 +3,18 @@
 :- include('story.pl').
 :- include('types.pl').
 :- [state].
+:- use_module(library(random)).
 
 % suprress discontigous warnings.
 
 
 % scenario_outcome(KEY, DESC, CHOICES)
 
+
 % -- given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
 % createScenarioWeights :: [[Char]] -> [Rational]
 % createScenarioWeights lst = normalize [if h `elem` lst then (2 * fromIntegral (length allScenarioKeys) / fromIntegral (length lst)) else 1 | h <- allScenarioKeys]
+create_scenario_weights_helper(Lst, [], _, []).
 create_scenario_weights_helper(Lst, [KH|KT], N, R) :-
     member(KH,Lst),
     length(Lst, NL),
@@ -26,7 +29,10 @@ create_scenario_weights_helper(Lst, [KH|KT], N, R) :-
 create_scenario_weights(Lst,NR) :-
     all_scenario_keys(Keys),
     length(Keys, N),
+    write('N: '),
+    write(N),nl,
     create_scenario_weights_helper(Lst, Keys, N, R),
+    write("here"), nl,
     normalize(R,NR).
 
 % -- given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
@@ -39,20 +45,24 @@ create_scenario_weights(Lst,NR) :-
 % chooseNext (PlayerChoice _ logicalNexts _) = chooseFromWeightedList allScenarioKeys (createScenarioWeights logicalNexts)
 choose_next(Scene, PlayerChoice, NextScenario) :-
     choice(Scene, PlayerChoice,_,LogicalNexts,_),
+    write(Scene),nl,
+    write(PlayerChoice),nl,
+    write(NextScenario),nl,
     create_scenario_weights(LogicalNexts, Weights),
     all_scenario_keys(Keys),
     choose_from_weighted_list(Keys, Weights, NextScenario).
 
 print_choices(_,[],_).
 print_choices(Scene,[H|T],I) :-
-    choice(Scene,H,D,_,_),
-    format(atom(A), '(~w) ~w', [I+1,D]),
+    choice(Scene,H,D,_,__),
+    N is I + 1,
+    format(atom(A), '(~w) ~w', [N,D]),
     write(A),
     nl,
     print_choices(Scene,T,I+1).
 
 display_choices(Scene) :-
-    choices_in_scene(Scenario,C),
+    choices_in_scene(Scene,C),
     write('Choices: '),
     nl,
     print_choices(Scene,C,0).
@@ -106,11 +116,14 @@ go(scene(end), end).
 go(scene(end(*)), end(*)).
 go(Scenario,EndKey) :-
     choices_in_scene(Scenario,C),
+    write('go10'),nl,
     ask_scenario(Scenario, I),
     nth0(I,C,PlayerChoice),
     choice(Scenario,PlayerChoice,_,_,Points),
+    write('go11'),nl,
     choose_next(Scenario,PlayerChoice,NextScenario),
     update_points(Points),
+    write('go12'),nl,
     go(NextScenario,EndKey).
 
 % Edit later to include world type? (for initial inventory)
@@ -118,7 +131,7 @@ choose_start_world :-
     random(1,8,R),
     store_world(start(R)),
     start_desc(start(R), T),
-    write(T).
+    ask_with_wait_next(write(T)).
 
 % given the number points, the key of the startWorld, and the key of the ending, end the game, show the ending corresponding to number of points and startWorld of the player
 % showEnd :: Int -> String -> String -> IO ()
@@ -180,10 +193,11 @@ show_end(EndKey) :-
 
 
 start_game :-
-    ask_with_wait_next("Welcome to Randomized Choose your Own Adventure.\nPress enter to continue whenever there is a pause (like now)."),
+
+    ask_with_wait_next("Welcome to Randomized Choose your Own Adventure."),
     ask_with_wait_next("Disclaimer: story might not make sense. Welcome to the world of randomness!"),
     choose_start_world,
-    go("1",R),
+    go(scene(1),R),
     show_end(R),
     points_counter(Points),
     format(atom(S), 'Points: ~w', [Points]),

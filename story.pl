@@ -155,7 +155,7 @@ choice(scene(11), 3, "Go home", [end()], 1).                % game will end
 
 
 choices_in_scene(Scene, ListOfChoices) :-
-    findall(Choice, choice(Scene, _, Choice, _, _), ListOfChoices).
+    findall(Choice, choice(Scene, Choice, _, _, _), ListOfChoices).
 
 % scene_desc(scene(), ).
 % scene_choices(scene(), [

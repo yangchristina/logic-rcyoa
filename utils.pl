@@ -5,6 +5,8 @@
 % modify_list_at_index([H|T], I, N, R) :- I1 is I - 1,
 %                                         modify_list_at_index(T, I1, N, R1),
 %                                         R = [H|R1].
+% :- use_module(library(read_line_to_stringutil)).
+:- use_module(library(readutil)).
 
 multiply_at_index([], _, _, []).
 multiply_at_index([H|T], 0, M, R) :- R = [(M*H)|T].
@@ -32,39 +34,37 @@ normalize(L1,L2) :-
     normalize_by(L1, C, L2),
     total(L1, C).
 
-% prolog does not need fixdel unlike haskell
- %Ask for an integer input, and repeat until a valid integer is given
- % This works but its really slow prolly needs fixing but i too tired rn
- ask_int_in_range(Min, Max, X) :- read(X),
-                               is_of_type(integer, X),
-                               X > Min,
-                               X < Max.
-ask_int_in_range(Min, Max, Y) :- read(X),
-                            is_of_type(integer, X),
-                            X < Min,
-                            write("Invalid input, try again"),
-                            ask_int_in_range(Min, Max, Y).
-ask_int_in_range(Min, Max, Y) :- read(X),
-                        is_of_type(integer, X),
-                        X > Max,
-                        write("Invalid input, try again"),
-                        ask_int_in_range(Min, Max, Y).
-ask_int_in_range(Min, Max, Y) :- read(X),
-                     \+ is_of_type(integer, X),
-                     write("Invalid input, try again"),
-                     ask_int_in_range(Min, Max, Y).
+
+is_in_range(N, Min, Max) :-
+    N >= Min,
+    N =< Max.
+
+%  ask_int_in_range(Min, Max, X) :- read_line_to_string(user_input, X),
+%                                 atom_number(X,N),
+%                                 is_of_type(integer, N),
+%                                 is_in_range(N, Min, Max).
+% ask_int_in_range(Min, Max, Y) :- read_line_to_string(user_input, X),
+%                                 write("Invalid input, try again"),
+%                                 nl,
+%                                 ask_int_in_range(Min, Max, Y).
+
+
+ask_int_in_range(Min, Max, N) :- read_line_to_string(user_input, X),
+    atom_number(X,N), is_of_type(integer, N), is_in_range(N, Min, Max);
+    write("Invalid input, try again"),nl, ask_int_in_range(Min, Max, N).
 
 ask :- write("Please input an int"),
        nl,
        ask_int_in_range(1, 5, T),
        write(T).
 
-
 % ask_with_wait_next :: String -> IO ()
 ask_with_wait_next(Desc) :-
     write(Desc),
     nl,
-    read(_).
+    sleep(1).
+    % flush_output(user),
+    % read_line_to_string_line_to_string(user_input, _).
 
 % do
 %        putStrLn desc

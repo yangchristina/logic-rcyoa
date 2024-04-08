@@ -2,6 +2,10 @@
 :- dynamic(inventory/1).
 :- dynamic(world/1).
 
+points_counter(0).
+inventory([]).
+world(start(1)).
+
 update_points(Inc) :-
     retract(points_counter(CurrentPoints)),
     P is CurrentPoints + Inc,
