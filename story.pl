@@ -2,7 +2,7 @@
 %
 % Present types of worlds
 % start scene option 1:
-% startScene :- 
+% startScene :-
 %     write("What type of world would you like?"), nl,
 %     write("Swamp (dark and stormy)"), nl,
 %     write("Magical candy castle in the clouds (light and magical)"),
@@ -27,15 +27,15 @@ scene_choices(scene(start), [
 :- discontiguous scene_choices/2.
 
 % Initial world scenarios (represented as a series of facts).
-% sample use below 
+% sample use below
 % show_desc(_) :- start_desc(start(studio), T),
 %                    write(T).
 % Studio start world facts
-start_desc(start(studio), "You are sitting in your studio apartment, watching youtube videos of cats, when you see you've received an email. It's the results for your job interview last week.\nYou slowly reach your mouse towards the email. Your hands tremble.\nBam! You get hit by a truck."). 
+start_desc(start(studio), "You are sitting in your studio apartment, watching youtube videos of cats, when you see you've received an email. It's the results for your job interview last week.\nYou slowly reach your mouse towards the email. Your hands tremble.\nBam! You get hit by a truck.").
 good_end(start(studio), "The truck thing was your real interview. You get the job!").
 neutral_end(start(studio), "It was actually a scam email").
 bad_end(start(studio), "The truck thing was your real interview. You did not pass.").
-probs(start(studio), [0.2, 0.2, 0.3, 0.3]). % not sure if we really need this tbh. 
+probs(start(studio), [0.2, 0.2, 0.3, 0.3]). % not sure if we really need this tbh.
 
 % Countryside start world facts
 start_desc(start(countryside), "You're in the countryside.\nThere's a barren feel to the place.\nYou stab your hoe at the ground, bored out of your mind.\nSuddenly, a truck comes up out of nowhere, and bam! You black out.").
@@ -182,6 +182,11 @@ scene_choices(scene(11), [
 
 % ]).
 
-% End scenarios facts 
+all_scenario_keys([scene(1), scene(2), scene(3), scene(4), scene(5), scene(6), scene(7), scene(8), scene(9), scene(10), scene(10.5), scene(11)]).
+
+% End scenarios facts
 scene(end(*), "You've successfully avoided job search. You spend your days frolicking around with butterflies. But when will you get back to reality?").
 scene(end(), "The End."). % This isn't necessarily needed (instead have a check for "end"), for now I've left it
+
+is_end(scene(end)).
+is_end(scene(end(*))).

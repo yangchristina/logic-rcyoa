@@ -2,17 +2,43 @@
 :- include('random.pl').
 :- include('story.pl').
 :- include('types.pl').
-% :- [utils].
+:- [state].
 
 % scenario_outcome(KEY, DESC, CHOICES)
 
 % -- given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
 % createScenarioWeights :: [[Char]] -> [Rational]
-% createScenarioWeights [] = []
 % createScenarioWeights lst = normalize [if h `elem` lst then (2 * fromIntegral (length allScenarioKeys) / fromIntegral (length lst)) else 1 | h <- allScenarioKeys]
-:- dynamic(results/1).
+create_scenario_weights_helper(Lst, [KH|KT], N, R) :-
+    member(KH,Lst),
+    length(Lst, NL),
+    R = [2 * N / NL | RT],
+    create_scenario_weights_helper(Lst, KT, RT).
 
-results(start_results).
+create_scenario_weights_helper(Lst, [KH|KT], N, R) :-
+    \+ member(KH,Lst),
+    R = [1 | RT],
+    create_scenario_weights_helper(Lst, KT, RT).
+
+create_scenario_weights(Lst,NR) :-
+    all_scenario_keys(Keys),
+    length(Keys, N),
+    create_scenario_weights_helper(Lst, Keys, N, R),
+    normalize(R,NR).
+
+% -- given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
+% createScenarioWeights :: [[Char]] -> [Rational]
+store_world(Key) createScenarioWeights [] = []
+% createScenarioWeights lst = normalize [if h `elem` lst then (2 * fromIntegral (length allScenarioKeys) / fromIntegral (length lst)) else 1 | h <- allScenarioKeys]
+
+% -- given a PlayerChoice, choose the next scenario
+% chooseNext :: PlayerChoice -> IO String
+% chooseNext (PlayerChoice _ logicalNexts _) = chooseFromWeightedList allScenarioKeys (createScenarioWeights logicalNexts)
+choose_next(PlayerChoice, NextScenario) :-
+    player_choice(PlayerChoice,_,LogicalNexts,_),
+    create_scenario_weights(LogicalNexts, Weights),
+    choose_from_weighted_list(all_scenario_keys, Weights, NextScenario).
+
 
 print_choices([]).
 print_choices([H|T],I) :-
@@ -71,6 +97,10 @@ ask_scenario(K,I) :-
 % putStrLn $ "Points: " ++ show points
 % putStrLn ("Thanks for playing!")
 
+should_end(Scenario,Points,EndKey) :-
+    scenario_outcome(Scenario,_,_),
+    EndKey = "end",
+
 go(Scenario,P,R) :-
     scenario_outcome(Scenario, D, C),
     ask_scenario(Scenario, I),
@@ -89,3 +119,7 @@ start_game :-
     write(S),
     nl,
     write('Thanks for playing!').
+
+choose_start_world :-
+    rand
+    write()
