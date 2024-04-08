@@ -39,24 +39,15 @@ is_in_range(N, Min, Max) :-
     N >= Min,
     N =< Max.
 
-%  ask_int_in_range(Min, Max, X) :- read_line_to_string(user_input, X),
-%                                 atom_number(X,N),
-%                                 is_of_type(integer, N),
-%                                 is_in_range(N, Min, Max).
-% ask_int_in_range(Min, Max, Y) :- read_line_to_string(user_input, X),
-%                                 write("Invalid input, try again"),
-%                                 nl,
-%                                 ask_int_in_range(Min, Max, Y).
-
 
 ask_int_in_range(Min, Max, N) :- read_line_to_string(user_input, X),
     atom_number(X,N), is_of_type(integer, N), is_in_range(N, Min, Max);
     write("Invalid input, try again"),nl, ask_int_in_range(Min, Max, N).
 
-ask :- write("Please input an int"),
-       nl,
-       ask_int_in_range(1, 5, T),
-       write(T).
+% ask :- write("Please input an int"),
+%        nl,
+%        ask_int_in_range(1, 5, T),
+%        write(T).
 
 % ask_with_wait_next :: String -> IO ()
 ask_with_wait_next(Desc) :-
