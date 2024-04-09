@@ -14,9 +14,12 @@ multiply_at_index([H|T], I, M, R) :- I1 is I - 1,
                                         multiply_at_index(T, I1, M, R1),
                                         R = [H|R1].
 
-% Remove first element of list
-remove_first([],[]).
-remove_first([_|T], T).
+% Remove first occurrence element of list
+% remove_first([],_,[]).
+% remove_first([])
+% remove_first([H|T], H, T).
+% remove_first([_|T1], H, T) :- remove_first(T1, H, N),
+%                                T is append(H, N).
 
 % sums a list, adapted from  lecture 22.
 total([], 0).
@@ -72,3 +75,9 @@ ask_with_wait_next(Desc) :-
 % given a list of probabilities and an index, increase the probability at the given index, then normalize so it still sums to 1
 increase_prob_of_index(P1, I, R) :- multiply_at_index(P1, I, 2, PM),
                                   normalize(PM, R).
+
+
+remove_first(_, [], []).
+remove_first(Item, [Item|T], T).
+remove_first(Item, [H|T], [H|RT]) :-
+    remove_first(Item, T, RT).

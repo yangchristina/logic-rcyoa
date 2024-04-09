@@ -63,7 +63,7 @@ ask_scenario(Scenario,I) :-
     choice(Scenario,E,Desc2,_,_,_),
     format(atom(S), 'You chose: ~w', [Desc2]),
     write(S),
-    nl.
+    nl,nl.
 
 % go(K,P) :-
 %     scenario_outcome(K, D, C),
@@ -73,6 +73,8 @@ go(scene(scene(end(*)))) :- show_end(scene(end(*))).
 go(Scenario) :-
     choices_in_scene(Scenario,C),
     ask_scenario(Scenario, I),
+    inventory_random_change,
+    nl,
     nth0(I,C,PlayerChoice),
     choice(Scenario,PlayerChoice,_,_,_,Points),
     choose_next(Scenario,PlayerChoice,NextScenario),
@@ -88,13 +90,13 @@ choose_start_world :-
 
 % given the number points, the key of the startWorld, and the key of the ending, end the game, show the ending corresponding to number of points and startWorld of the player
 show_end(scene(end(*))) :-
-    points_counter(Points),
+    total_points(Points),
     world(CurrentWorld),
     scene_desc(scene(end(*)), Message),
     write(Message), nl.
 
 show_end(EndKey) :-
-    points_counter(Points),
+    total_points(Points),
     world(CurrentWorld),
     dif(EndKey, scene(end(*))),
     Points >= 70,
@@ -104,7 +106,7 @@ show_end(EndKey) :-
     write(Message), nl.
 
 show_end(EndKey) :-
-    points_counter(Points),
+    total_points(Points),
     world(CurrentWorld),
     dif(EndKey, scene(end(*))),
     Points < 25,
@@ -114,7 +116,7 @@ show_end(EndKey) :-
     write(Message), nl.
 
 show_end(EndKey) :-
-    points_counter(Points),
+    total_points(Points),
     world(CurrentWorld),
     dif(EndKey, scene(end(*))),
     Points >= 25,
@@ -125,11 +127,12 @@ show_end(EndKey) :-
     write(Message), nl.
 
 start_game :-
+    reset_points,
+    clear_inventory,
     ask_with_wait_next("Welcome to Randomized Choose your Own Adventure."),
     ask_with_wait_next("Disclaimer: story might not make sense. Welcome to the world of randomness!"),
     choose_start_world,
     go(scene(1)),
-    % show_end(R),
     points_counter(Points),
     format(atom(S), 'Points: ~w', [Points]),
     write(S),
