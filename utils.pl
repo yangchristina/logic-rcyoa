@@ -1,4 +1,3 @@
-% Author: Michelle
 % Modify list at given index (zero based), N = New item, [H|T] = list to be modified, I = index of entry to be modified
 % modify_list_at_index([], _, _, []).
 % modify_list_at_index([_|T], 0, N, R) :- R = [N|T].
@@ -14,13 +13,6 @@ multiply_at_index([H|T], 0, M, R) :- R = [(M*H)|T].
 multiply_at_index([H|T], I, M, R) :- I1 is I - 1,
                                         multiply_at_index(T, I1, M, R1),
                                         R = [H|R1].
-
-% Remove first occurrence element of list
-% remove_first([],_,[]).
-% remove_first([])
-% remove_first([H|T], H, T).
-% remove_first([_|T1], H, T) :- remove_first(T1, H, N),
-%                                T is append(H, N).
 
 % sums a list, adapted from  lecture 22.
 total([], 0).
@@ -55,20 +47,6 @@ ask_with_wait_next(Desc) :-
     write(Desc),
     nl,
     sleep(1).
-    % flush_output(user),
-    % read_line_to_string_line_to_string(user_input, _).
-
-% do
-%        putStrLn desc
-%        _ <- getLine
-%        -- line <- getLine
-%        -- let cont' = fixdel line
-%        return ()
-
-
-% -- given a list of probabilities and an index, increase the probability at the given index, then normalize so it still sums to 1
-% increaseProbOfIndex :: [Float] -> Int -> [Float]
-% increaseProbOfIndex probs idx = normalize (modifyListAtIndex probs idx (* 2))
 
 % given a list of probabilities and an index, increase the probability at the given index, then normalize so it still sums to 1
 increase_prob_of_index(P1, I, R) :- multiply_at_index(P1, I, 2, PM),

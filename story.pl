@@ -1,5 +1,3 @@
-% Author: Michelle
-%
 % Present types of worlds
 % start scene option 1:
 % startScene :-

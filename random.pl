@@ -1,4 +1,3 @@
-% Author: Christina
 :- use_module(library(random)).
 :- include('utils.pl').
 

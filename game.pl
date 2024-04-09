@@ -4,11 +4,7 @@
 :- [state].
 :- use_module(library(random)).
 
-% suprress discontigous warnings.
-
-
-% scenario_outcome(KEY, DESC, CHOICES)
-
+% suppress discontigous warnings.
 
 % given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
 create_scenario_weights_helper(_, _, [], []).

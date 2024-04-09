@@ -8,9 +8,6 @@ points_counter(0).
 inventory([]).
 world(start(1)).
 
-% total_points :-
-%     points_counter(TotalPoints),
-
 
 update_points(Inc) :-
     retract(points_counter(CurrentPoints)),
