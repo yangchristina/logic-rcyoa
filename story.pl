@@ -78,7 +78,7 @@ bad_end(start(7), "Huh! You do not actually have a job. It appears you were dayd
 probs(start(7), [0.2, 0.1, 0.5, 0.2]).
 
 % Facts of different possible scenarios and their possible choices
-% Scenarios are represented as scene(id, desc, lst), where lst is a lst of possible choices: choice(id, desc, next, points).
+% Scenarios are represented as scene(id, desc), and then a series of choices, represented by choice(scene(id), num, desc, lstbest, lst, points)
 scene_desc(scene(1), "You open your eyes, and see butterflies fluttering all around you. They place a crown made of silk on your head. You push yourself up. They all bow down. \n'Butterfly Monarch,' they cry out. 'Save us from the evil frogs who have kidnapped our children.'").
 choice(scene(1), 1, "Throw away the crown. What rubbish!", [scene(2), scene(11)], [scene(3), scene(4), scene(5), scene(9), scene(10), scene(10.5), scene(11)], 1).
 choice(scene(1), 2, "Love frogs, so you agree to save them, but secretly collect information about them so you can betray the butterflies later", [scene(4)], [scene(2), scene(3), scene(4), scene(5), scene(10), scene(10.5)], -1).
@@ -99,56 +99,56 @@ choice(scene(3), 4, "The frogs will protect me I will be safe.", [scene(5), scen
 choice(scene(3), 5, "Scout around the area for tools that may be useful.", [scene(4)], [scene(5)], 7).
 
 scene_desc(scene(4), "As you are preparing for the next step of your journey, you realize that you may need some tools. As you look around, you see some potentially useful items...").
-choice(scene(4), 1, "Wow, this lamp seems useful", [scene(3)], [scene(5)], 8).
-choice(scene(4), 2, "I need nothing but my own courage and skills", [scene(5)], [scene(3)], 6).
-choice(scene(4), 3, "Give me everything you offer", [scene(5)], [scene(3), scene(10.5), scene(10)], 4).
-choice(scene(4), 4, "Money, money, money, MONEYYYYYYY!!!!!", [scene(5)], [scene(3), scene(10), scene(10.5)], 10).
+choice(scene(4), 1, "Wow, this lamp seems useful", [scene(3)], [scene(5), scene(11), scene(10.5)], 8).
+choice(scene(4), 2, "I need nothing but my own courage and skills", [scene(5)], [scene(3), scene(11), scene(10)], 6).
+choice(scene(4), 3, "Give me everything you offer", [scene(5)], [scene(3), scene(10.5), scene(10), scene(11)], 4).
+choice(scene(4), 4, "Money, money, money, MONEYYYYYYY!!!!!", [scene(5)], [scene(3), scene(10), scene(10.5), scene(11)], 10).
 
 scene_desc(scene(5), "You've run into a giant frog henchman. What will you do next?").
 choice(scene(5), 1, "Flee. My life is not worth this.", [scene(11), scene(9)], [scene(2), scene(10.5)], 1).
-choice(scene(5), 2, "Sacrifice the butterflies. Hey, I've got more important things to do", [scene(10.5), scene(6), scene(8)], [scene(7)], -5).
+choice(scene(5), 2, "Sacrifice the butterflies. Hey, I've got more important things to do", [scene(10.5), scene(6), scene(8)], [scene(7), scene(11)], -5).
 choice(scene(5), 3, "Prepare for battle. Even though I've spent everyday job searching... Wish me luck.", [scene(6), scene(7)], [scene(8)], 8).
-choice(scene(5), 4, "Prepare for battle! I've got this!", [scene(6), scene(7)], [scene(8)], 8).
-choice(scene(5), 5, "I can convince this frog that I'm on his side.", [scene(7), scene(6), scene(8)], [scene(2)], 6).
+choice(scene(5), 4, "Prepare for battle! I've got this!", [scene(6), scene(7)], [scene(8), scene(11)], 8).
+choice(scene(5), 5, "I can convince this frog that I'm on his side.", [scene(7), scene(6), scene(8)], [scene(2), scene(11), scene(1)], 6).
 
 scene_desc(scene(6), "After a long and arduous confrontation, the frog henchman decides to flee and report back. How will you move forward?").
-choice(scene(6), 1, "No matter, I am prepared to move forward", [scene(10), scene(5)], [scene(3), scene(4), scene(10.5), scene(1), scene(2)], 8).
+choice(scene(6), 1, "No matter, I am prepared to move forward", [scene(10), scene(5)], [scene(3), scene(4), scene(10.5), scene(1), scene(2), scene(11)], 8).
 choice(scene(6), 2, "Oh no, I've got to turn back and recoup", [scene(9), scene(11)], [scene(4), scene(5), scene(1), scene(2)], 4).
-choice(scene(6), 3, "Speed up to apprehend the henchman again", [scene(3), scene(5), scene(10), scene(10.5)], [scene(7), scene(8)], 7).
-choice(scene(6), 4, "I'm on the frogs' side? Why should I stop it. Pretend to accidentally let it go.", [scene(10), scene(10.5)], [scene],-1).
+choice(scene(6), 3, "Speed up to apprehend the henchman again", [scene(3), scene(5), scene(10), scene(10.5)], [scene(7), scene(8), scene(11)], 7).
+choice(scene(6), 4, "I'm on the frogs' side? Why should I stop it. Pretend to accidentally let it go.", [scene(10), scene(10.5)], [scene(8), scene(3), scene(5), scene(4), scene(1), scene(2), scene(11)],-1).
 
 scene_desc(scene(7), "You've defeated the frog henchman with ease. How will you deal with it and what is your next course of action?").
-choice(scene(7), 1, "Dispose of it. That way, no one will be able to alert the frogs. And let's continue onwards", [scene(10)], [], 10).
-choice(scene(7), 2, "How could I forget? I am with the frogs. Let it go, but its defeat shall lure the butterflies into a false sense of security, Mwahhahahahahahah.", [scene(3), scene(2), scene(10.5), scene(10)], [], -2).
-choice(scene(7), 3, "I'll show it some mercy but just to be safe, I'll send it back to the butterflies.", [scene(9), scene(10)], [], 7).
-choice(scene(7), 4, "I'll show some mercy, it will guide me to the frog monarch or else!", [scene(10)], [], 8).
+choice(scene(7), 1, "Dispose of it. That way, no one will be able to alert the frogs. And let's continue onwards", [scene(10)], [scene(5), scene(3), scene(4)], 10).
+choice(scene(7), 2, "How could I forget? I am with the frogs. Let it go, but its defeat shall lure the butterflies into a false sense of security, Mwahhahahahahahah.", [scene(3), scene(2), scene(10.5), scene(10)], [scene(4), scene(5), scene(11)], -2).
+choice(scene(7), 3, "I'll show it some mercy but just to be safe, I'll send it back to the butterflies.", [scene(10)], [scene(11), scene(9), scene(3), scene(4), scene(5)], 7).
+choice(scene(7), 4, "I'll show some mercy, it will guide me to the frog monarch or else!", [scene(10)], [scene(10.5), scene(3), scene(5)], 8).
 
 scene_desc(scene(8), "The frog henchman defeated you. Despite your valiant efforts, the frog henchman has easily defeated you. Now it is thinking of capturing you. How are you to move forward?").
-choice(scene(8), 1, "Run away! The frogs are too scary!", [scene(9), scene(11)], [], 1).
-choice(scene(8), 2, "I was just pretending to be defeated, I'm  on the frogs' side, remember? This is also part of my plan", [scene(10.5)], [], -2).
-choice(scene(8), 3, "Evade capture! The frogs may have won this battle, but I'll win the war!", [scene(10)], [], 6).
-choice(scene(8), 4, "I'll allow myself to be captured, but that just means I'll be brought right to the frog monarch, where I'll show it my might!", [scene(10.5)], [], 8).
+choice(scene(8), 1, "Run away! The frogs are too scary!", [scene(9), scene(11)], [scene(1), scene(2)], 1).
+choice(scene(8), 2, "I was just pretending to be defeated, I'm  on the frogs' side, remember? This is also part of my plan", [scene(10.5)], [scene(3), scene(4), scene(5), scene(11)], -2).
+choice(scene(8), 3, "Evade capture! The frogs may have won this battle, but I'll win the war!", [scene(10)], [scene(11), scene(10.5)], 6).
+choice(scene(8), 4, "I'll allow myself to be captured, but that just means I'll be brought right to the frog monarch, where I'll show it my might!", [scene(10.5)], [scene(10), scene(11)], 8).
 
 scene_desc(scene(9), 'You\'ve decided to retreat. The butterflies welcome you back disappointedly but resigned. They offer you the choice to try again or to give up.').
 choice(scene(9), 1, "I'm going back home, it's not worth it! Send me home!", [scene(11), scene(end)], [], 1).
-choice(scene(9), 2, 'I can keep going, let me try again.', [scene(3), scene(5), scene(10)], [], 7).
-choice(scene(9), 3, 'I guess I can keep going? Give me more money and I\'ll do it.', [scene(4)], [], 8).
+choice(scene(9), 2, 'I can keep going, let me try again.', [scene(3), scene(5), scene(10)], [scene(1), scene(2), scene(4), scene(10.5), scene(11)], 7).
+choice(scene(9), 3, 'I guess I can keep going? Give me more money and I\'ll do it.', [scene(4)], [scene(1), scene(2), scene(3), scene(5), scene(10), scene(10.5), scene(11)], 8).
 
 scene_desc(scene(10), "You valiantly march onwards towards the frogs' lair, as prepared as you ever will be. The ominous castle looms closer and closer, increasing in size along with the pit of fear and anxiety in your chest. Wow, this may even be more scary than job search. But you've decided to do this and so you will. Now, you see the frog monarch, more intimidating than you ever thought. It snarls and offers you some choices, how will you respond?").
 choice(scene(10), 1, "Fight! I will never give up", [scene(end)], [], 7).
 choice(scene(10), 2, "Surrender, frogs are too scary. I'm sorry, butterflies, but I can't!", [scene(end)], [], -10).
-choice(scene(10), 3, "Is it too late to run away?", [scene(end)], [], 2).
+choice(scene(10), 3, "Is it too late to run away?", [scene(end)], [scene(11)], -2).
 choice(scene(10), 4, "I've prepared this long, I guess I'll do my best.", [scene(end)], [], 7).
 
 scene_desc(scene(10.5), 'You\'ve failed to evade capture. A frog henchman found you and is now bringing you to the frog monarch. Scary scary. How will you respond?').
 choice(scene(10.5), 1, "Fight! I will never give up", [scene(end)], [], 7).
 choice(scene(10.5), 2, 'Surrender, frogs are too scary. I\'m sorry, butterflies, but I can\'t!', [scene(end)], [], -100).
-choice(scene(10.5), 3, "Is it too late to run away?", [scene(end)], [], (-2)).
+choice(scene(10.5), 3, "Is it too late to run away?", [scene(end)], [scene(11)], (-2)).
 choice(scene(10.5), 4, "I've prepared this long, I guess I'll do my best.", [scene(end)], [], 7).
 
 scene_desc(scene(11), 'It\'s time to make a choice. You see a mysterious glowing portal appear two steps ahead. Will you take the wager and hope to go home?').
 choice(scene(11), 1, "Stay", [scene(end(*))], [], 1).                 % game will end
-choice(scene(11), 2, "Continue the adventure", [scene(3)], [], 1).  % game continues
+choice(scene(11), 2, "Continue the adventure", [scene(3)], [scene(1), scene(2), scene(4), scene(5), scene(10), scene(10.5), scene(9)], 1).  % game continues
 choice(scene(11), 3, "Go home", [scene(end)], [], 1).                % game will end
 
 % Find a list of all the choices in a certain scenario
