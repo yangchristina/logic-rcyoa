@@ -1,12 +1,7 @@
 % Author: Christina
 :- use_module(library(random)).
 :- include('utils.pl').
-% -- Generate a random continuous number between 0 and 1
-% randomContinuousZeroToOne :: IO Float
-% randomContinuousZeroToOne = randomIO
-% https://www.swi-prolog.org/pldoc/man?predicate=random/1
 
-% Convert t
 % return a list where each element is the sum of itself and all elements with a lower index than itself in the original input list
 convert_to_cdf([],[]).
 convert_to_cdf([X|[]],[X|[]]).
@@ -21,6 +16,7 @@ choose_cdf_list_index([H|T],CI,N,RI) :-
     H < N,
     choose_cdf_list_index(T,CI+1,N,RI).
 
+% given a list of elements and a list of weights, return a random element from the list, where the probability of each element being chosen is proportional to its weight
 choose_from_weighted_list(L,W,E) :-
     random(R),
     normalize(W,N),

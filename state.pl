@@ -77,6 +77,7 @@ clear_inventory :-
     retractall(inventory(_)),
     assertz(inventory([])).
 
+% print item name and points
 print_items([]).
 print_items([H|[]]) :- item(H, Desc, Points),
                         write(Desc), write(" ("), write(Points), write(")").
@@ -84,6 +85,7 @@ print_items([H|T]) :- item(H, Desc, Points),
                         write(Desc), write(" ("), write(Points), write("), "),
                         print_items(T).
 
+% Print all items in inventory, along with how many points each item is worth.
 print_inventory :-
     inventory(Items),
     length(Items, L),

@@ -1,7 +1,6 @@
-:- include('utils.pl').
-:- include('random.pl').
-:- include('story.pl').
-:- include('types.pl').
+:- [utils].
+:- [random].
+:- [story].
 :- [state].
 :- use_module(library(random)).
 
@@ -11,9 +10,7 @@
 % scenario_outcome(KEY, DESC, CHOICES)
 
 
-% -- given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
-% createScenarioWeights :: [[Char]] -> [Rational]
-% createScenarioWeights lst = normalize [if h `elem` lst then (2 * fromIntegral (length allScenarioKeys) / fromIntegral (length lst)) else 1 | h <- allScenarioKeys]
+% given a list of scenario keys, create a list of weights for each scenario in allScenarioKeys, where the weight of scenarios in the given list is larger
 create_scenario_weights_helper(_, _, [], []).
 create_scenario_weights_helper(Lst, LRest, [KH|KT], R) :-
     (member(KH,Lst),R=[2|RT];member(KH,LRest),R=[1|RT];R=[0|RT]),
@@ -30,7 +27,6 @@ create_scenario_weights(Scene, PlayerChoice,NR) :-
 choose_next(Scene, PlayerChoice, NextScenario) :-
     choice(Scene, PlayerChoice,_,LogicalNexts,_,_),
     create_scenario_weights(Scene, PlayerChoice, Weights),
-    % create_scenario_weights(LogicalNexts, Weights),
     all_scenario_keys(Keys),
     choose_from_weighted_list(Keys, Weights, NextScenario).
 
@@ -64,9 +60,6 @@ ask_scenario(Scenario,I) :-
     format(atom(S), 'You chose: ~w', [Desc2]),
     write(S),
     nl,nl.
-
-% go(K,P) :-
-%     scenario_outcome(K, D, C),
 
 go(scene(end)) :- show_end(scene(end)).
 go(scene(scene(end(*)))) :- show_end(scene(end(*))).

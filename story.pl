@@ -153,17 +153,17 @@ choice(scene(11), 1, "Stay", [scene(end(*))], [], 1).                 % game wil
 choice(scene(11), 2, "Continue the adventure", [scene(3)], [], 1).  % game continues
 choice(scene(11), 3, "Go home", [scene(end)], [], 1).                % game will end
 
-
+% Find a list of all the choices in a certain scenario
 choices_in_scene(Scene, ListOfChoices) :-
     findall(Choice, choice(Scene, Choice, _, _, _, _), ListOfChoices).
 
+% Empty scene
 % scene_desc(scene(), ).
-% scene_choices(scene(), [
+% choice(scene(),,,,).
 
-% ]).
-
+% list of keys of all possible scenarios
 all_scenario_keys([scene(1), scene(2), scene(3), scene(4), scene(5), scene(6), scene(7), scene(8), scene(9), scene(10), scene(10.5), scene(11), scene(end), scene(end(*))]).
 
 % End scenarios facts
 scene_desc(scene(end(*)), 'You\'ve successfully avoided job search. You spend your days frolicking around with butterflies. But when will you get back to reality?').
-scene_desc(scene(end), "The End."). % This isn't necessarily needed (instead have a check for "end"), for now I've left it
+scene_desc(scene(end), "The End."). % This isn't necessarily needed (instead just have a check for "end"), for now I've left it
